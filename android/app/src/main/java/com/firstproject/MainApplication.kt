@@ -1,4 +1,4 @@
-package com.thirdproject
+package com.firstproject
 
 import android.app.Application
 import com.facebook.react.PackageList

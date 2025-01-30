@@ -1,0 +1,206 @@
+import React,{useState} from 'react';
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native';
+import BottomNavigationBar from './BottomNavigationBar';
+// import Button from '../../components/Button';
+
+
+
+
+function ResourceRequestedHistory({ navigation }) {
+  const data = [
+    { id: '#3111', title: 'React Developer', experience: '3+ yr', createdDate: '02/12/24', skills: 'React, Redux ', priority: 'Medium'     , status:"Approved"  },
+    { id: '#3112', title: 'Java Developer', experience: '5+ yr', createdDate: '02/12/24', skills: 'Java, Spring Boot', priority: 'High'   , status:"Rejected"   },
+    { id: '#3113', title: 'Node.js Developer', experience: '4+ yr', createdDate: '02/12/24', skills: 'Node.js, Express', priority: 'Low'  , status:"In Progress"    },
+    { id: '#3114', title: 'Java Developer', experience: '5+ yr', createdDate: '02/12/24', skills: 'Java, Spring Boot', priority: 'High'   , status:"Approved"   },
+    { id: '#3115', title: 'React Developer', experience: '3+ yr', createdDate: '02/12/24', skills: 'React, Redux', priority: 'Medium'     , status:"In Progress"   },
+    { id: '#3116', title: 'Node.js Developer', experience: '4+ yr', createdDate: '02/12/24', skills: 'Node.js, Express' , priority: 'Low'  , status:"Rejected"  },
+  ];
+
+  const [selectedResource, setSelectedResource] = useState(null); // Track selected resource
+  const [modalVisible, setModalVisible] = useState(false); // Control modal visibility
+
+  const handleRowPress = (item) => {
+    setSelectedResource(item); // Set selected resource
+    setModalVisible(true); // Show modal
+  };
+
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.containerOne}>
+        <TouchableOpacity
+          style={styles.touchableBackButton}
+          onPress={() => navigation.goBack()} // Replace with desired action
+        >
+          {/* <Image
+            source={require('../../asserts/images/LeftPointingArrow.png')} // Replace with your image path
+            style={styles.backButtonImage}
+            accessibilityLabel="Back"
+          /> */}
+        </TouchableOpacity>
+        {/* <Image
+          source={require('../../asserts/images/Logo.png')} // Replace with your image path
+          style={styles.image}
+          accessibilityLabel="Company Logo"
+        /> */}
+        <Text style={styles.heading}>SEASIA</Text>
+      </View>
+
+      <Text style={styles.title}>Resource Requested History</Text>
+      <ScrollView horizontal>
+        <View style={styles.table}>
+          {/* Table Header */}
+          <View style={[styles.row, styles.header]}>
+            <Text style={[styles.cell, styles.cellId]}>ID</Text>
+            <Text style={[styles.cell, styles.cellTitle]}>Job Title</Text>
+            <Text style={[styles.cell, styles.cellDate]}>Created Date</Text>
+            <Text style={[styles.cell, styles.cellExperience]}>Experience</Text>
+            <Text style={[styles.cell, styles.cellSkills]}>Skills</Text>
+            <Text style={[styles.cell, styles.cellPriority]}>Priority</Text>
+            <Text style={[styles.cell, styles.status]}>Status</Text>
+          </View>
+          {/* Table Rows */}
+          <ScrollView style={{height:"35%"}}>
+          {data.map((item, index) => (
+            <TouchableOpacity key={item.id} onPress={() => handleRowPress(item)}>
+                <View
+                  key={item.id}
+                  style={[styles.row, index % 2 === 0 ? styles.evenRow : styles.oddRow]}
+                >
+                  <Text style={[styles.cell, styles.cellId]}>{item.id}</Text>
+                  <Text style={[styles.cell, styles.cellTitle]}>{item.title}</Text>
+                  <Text style={[styles.cell, styles.cellDate]}>{item.createdDate}</Text>
+                  <Text style={[styles.cell, styles.cellExperience]}>{item.experience}</Text>
+                  <Text style={[styles.cell, styles.cellSkills]}>{item.skills}</Text>
+                  <Text style={[styles.cell, styles.cellPriority]}>{item.priority}</Text>
+                  <Text style={[styles.cell, styles.cellPriority,
+                      item.status==="Approved" && styles.ApprovedStatus,
+                      item.status==="Rejected" && styles.RejectedStatus,
+                      item.status==="In Progress" && styles.InProgressStatus,]}>{item.status}
+                  </Text>
+                </View>
+            </TouchableOpacity>
+          ))}
+          </ScrollView>
+        </View>
+      </ScrollView>
+
+       {/* Modal Component */}
+
+      <BottomNavigationBar/>
+      
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    // flex: 1,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  touchableBackButton: {
+    position: 'absolute',
+    top: 25,
+    left: 5,
+    zIndex: 10,
+  },
+  backButtonImage: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  },
+  containerOne: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  image: {
+    width: 70,
+    height: 80,
+    marginHorizontal: 10,
+    resizeMode: 'contain',
+    marginLeft:-35,
+  },
+  heading: {
+    fontSize: 35,
+    fontWeight: '600',
+    color: '#333',
+    marginLeft:-20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: '600',
+    marginBottom: 16,
+    color: '#333',
+    textAlign: 'center',
+  },
+  table: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 8,
+    overflow: 'hidden',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  header: {
+    backgroundColor: '#f4f4f4',
+  },
+  evenRow: {
+    backgroundColor: '#FFFFFF',
+  },
+  oddRow: {
+    backgroundColor: '#F0F9FF',
+  },
+  cell: {
+    margin: 7,
+    padding: 4,
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: '600',
+    borderRightWidth: 1,
+    borderRightColor: '#ddd',
+  },
+  cellId: {
+    width: 50,
+  },
+  cellTitle: {
+    width: 150,
+  },
+  cellExperience: {
+    width: 100,
+  },
+  cellDate: {
+    width: 120,
+  },
+  cellSkills: {
+    width: 180,
+  },
+  status: {
+    width: 100,
+  },
+  cellPriority: {
+    width: 100,
+    borderRightWidth: 0,
+  },
+  InProgressStatus:{
+    color:"#1DA7FF",
+    backgroundColor:"#F0F9FF"
+  },
+  ApprovedStatus:{
+    backgroundColor:"#E7FFF0",
+    color:"#1F944E"
+  },
+  RejectedStatus:{
+   backgroundColor:"#FBDADE",
+   color:"#A5303F",
+  
+  },
+});
+
+export default ResourceRequestedHistory;

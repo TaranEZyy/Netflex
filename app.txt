@@ -1,0 +1,95 @@
+import React from 'react';
+import { SafeAreaView, StyleSheet, ScrollView, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+//Import screens and components
+import HomePage from './src/screens/Manager/HomePage';
+import ResourceRequestedHistory from './src/screens/Manager/ResourceRequestedHistory';
+import CreateResourceRequirement from './src/screens/Manager/CreateResourceReqirement';
+import CeoHomePage from './src/screens/CEO/CeoHomePage';
+import CeoResourceRequestedHistory from './src/screens/CEO/CeoResourceRequestedHistory';
+import ResourceFullDetails from './src/screens/Manager/ResourceFullDetails';
+import HrHomePage from "./src/screens/HR/HrHomePage"
+import HrResourceRequestedHistory from "./src/screens/HR/HrResourceRequestedHistory"
+
+const Stack = createStackNavigator();
+
+// function App() {
+//   return (
+//     //FOR MANAGER
+//     // <NavigationContainer>
+//     //   <Stack.Navigator initialRouteName="HomePage">
+//     //     <Stack.Screen name="HomePage" component={HomePage} />
+//     //     <Stack.Screen name="ResourceRequestedHistory" component={ResourceRequestedHistory} />
+//     //   </Stack.Navigator>
+//     // </NavigationContainer>
+
+//     //FOR CEO
+//     // <NavigationContainer>
+//     // <Stack.Navigator initialRouteName="CeoHomePage">
+//     //   <Stack.Screen name="CeoHomePage" component={CeoHomePage} />
+//     //   <Stack.Screen name="CeoResourceRequestedHistory" component={CeoResourceRequestedHistory} />
+//     // </Stack.Navigator>
+//     // </NavigationContainer>
+
+//     <NavigationContainer>
+//       <Stack.Navigator initialRouteName="HrHomePage">
+//         <Stack.Screen name="HrHomePage" component={HrHomePage} />
+//         <Stack.Screen name="ResourceRequestedHistory" component={HrResourceRequestedHistory} />
+//       </Stack.Navigator>
+//     </NavigationContainer>
+//   );
+// }
+
+
+
+const App = () => {
+  const [userRole, setUserRole] = React.useState('CEO'); // Or 'Manager', 'HR'
+
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={userRole === 'CEO'? 'CeoHomePage': userRole === 'HR'? 'HrHomePage': 'HomePage'}>
+        {userRole === 'CEO' ? (
+          <>
+            <Stack.Screen name="CeoHomePage" component={CeoHomePage} options={{ headerShown: false }} />
+            <Stack.Screen name="CeoResourceRequestedHistory" component={CeoResourceRequestedHistory} options={{ headerShown: false }}/>
+          </>
+        ) : userRole === 'HR' ? (
+          <>
+            <Stack.Screen name="HrHomePage" component={HrHomePage} options={{ headerShown: false }}/>
+            <Stack.Screen name={"ResourceRequestedHistory"} component={HrResourceRequestedHistory}  options={{ headerShown: false }}/>
+          </>
+        ) : (
+          <>  
+            <Stack.Screen name="HomePage" component={HomePage}   options={{ headerShown: false }}/>
+            <Stack.Screen name="ResourceRequestedHistory" component={ResourceRequestedHistory} options={{ headerShown: false }}/>
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+
+
+const styles = StyleSheet.create({
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
+  },
+});
+
+export default App;
